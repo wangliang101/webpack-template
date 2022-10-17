@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
-import TestClass from './components/Class';
-import smallImage from './assets/images/7kb.jpeg';
-import bigImage from './assets/images/16kb.jpeg';
+import TestClass from '@/components/Class';
+import smallImage from '@/assets/images/7kb.jpeg';
+import bigImage from '@/assets/images/16kb.jpeg';
 // console.log('NODE_ENV', process.env.NODE_ENV);
 // console.log('BASE_ENV', process.env.BASE_ENV);
 function App() {
