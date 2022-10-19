@@ -19,8 +19,8 @@ module.exports = merge(baseConfig, {
   mode: 'production',
   optimization: {
     minimizer: [
-      new CssMinimizerPlugin(),
       // 此插件会导致webpack内置的terser-webpack-plugin(默认支持多进程)插件压缩js文件失效
+      new CssMinimizerPlugin(),
       new TerserPlugin({
         // 压缩js
         parallel: true, // 开启多线程压缩
