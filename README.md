@@ -21,13 +21,31 @@
 
 ## 3、Loader 和 Plugin 有什么区别？
 
+- loader 是文件加载器，能够加载资源文件，并对这些文件进行一些处理，诸如编译、压缩等，最终一起打包到指定的文件中;运行在打包文件之前
+- plugin 赋予了 webpack 各种灵活的功能，例如打包优化、资源管理、环境变量注入等，目的是解决 loader 无法实现的其他事;在整个编译周期都起作用
+
 ## 4、Webpack optimize 有配置过吗？可以简单说说吗？
+
+optimization 主要用来自定义一些优化打包策略，此项目中主要进行了一下两方面的优化：
+
+- minimizer：压缩 css 和 js
+- splitChunks: 将 node_modules 和公共页面内容单独提取 bundle，方便对不经常做修改的内容做缓存优化
 
 ## 5、Webpack 层面如何性能优化？
 
 ## 6、Webpack 和 Rollup 有什么相同点与不同点？
 
 ## 7、Webpack 打包流程是怎样的？
+
+1. 读取 webpack 的配置参数；
+
+2. 启动 webpack，创建 Compiler 对象并开始解析项目；
+
+3. 从入口文件（entry）开始解析，并且找到其导入的依赖模块，递归遍历分析，形成依赖关系树；
+
+4. 对不同文件类型的依赖模块文件使用对应的 Loader 进行编译，最终转为 Javascript 文件；
+
+5. 整个过程中 webpack 会通过发布订阅模式，向外抛出一些 hooks，而 webpack 的插件即可通过监听这些关键的事件节点，执行插件任务进而达到干预输出结果的目的。
 
 ## 8、Webpack 热更新（HMR）是如何实现？
 
