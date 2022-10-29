@@ -21,5 +21,5 @@ module.exports = {
     '@babel/preset-typescript',
   ],
   // 支持装饰器语法
-  plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
+  plugins: ['react-refresh/babel', ['@babel/plugin-proposal-decorators', { legacy: true }]],
 };

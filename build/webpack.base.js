@@ -7,7 +7,7 @@ const isDev = process.env.NODE_ENV === 'development'; // 是否是开发模式
 
 module.exports = {
   // 单入口
-  entry: path.join(__dirname, '../src/index.tsx'), // 入口文件配置
+  entry: path.join(__dirname, '../src/index.jsx'), // 入口文件配置
   // 多入口
   // entry: {
   //   pageOne: './src/pageOne/index.js',
@@ -27,7 +27,7 @@ module.exports = {
     rules: [
       {
         include: [path.resolve(__dirname, '../src')], // 缩小loader作用范围，不处理nodule_module
-        test: /.(ts|tsx)$/, // 匹配ts/tsx文件
+        test: /.(ts|tsx|jsx|js)$/, // 匹配ts/tsx文件
         // 将 thread-loader 放置在其他 loader 之前。放置在此 loader 之后的 loader 会在一个独立的 worker 池中运行; 不支持抽离css
         use: ['thread-loader', 'babel-loader'],
       },
@@ -89,7 +89,7 @@ module.exports = {
   },
   resolve: {
     // 主要是用来解决引入文件不配后缀的情况，从左到右
-    extensions: ['.js', '.tsx', '.ts'],
+    extensions: ['.js', '.tsx', '.ts', 'jsx'],
     // 给路径配置别名
     alias: {
       '@': path.join(__dirname, '../src'),
