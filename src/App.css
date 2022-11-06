@@ -6,10 +6,10 @@ h2 {
 .smallImage {
   width: 69px;
   height: 75px;
-  background: url('./assets/images/7kb.jpeg') no-repeat;
+  background: url("./assets/images/7kb.jpeg") no-repeat;
 }
 .bigImage {
   width: 232px;
   height: 154px;
-  background: url('./assets/images/16kb.jpeg') no-repeat;
+  background: url("./assets/images/16kb.jpeg") no-repeat;
 }

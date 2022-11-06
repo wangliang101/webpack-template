@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 
 // 装饰器为,组件添加age属性
+// eslint-disable-next-line @typescript-eslint/ban-types
 function addName(Target: Function) {
   Target.prototype.name = 'wliang';
 }

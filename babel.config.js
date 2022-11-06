@@ -14,12 +14,12 @@ module.exports = {
         // usage: 根据配置的浏览器兼容,以及代码中使用到的api进行引入polyfill按需添加
         // 不作任何处理，也不会自动引入 polyfilll 模块,需要注意的是在 webpack 打包文件配置的 entry 中引入的 @babel/polyfill 不会根据 useBuiltIns 配置任何转换处理。
         useBuiltIns: 'usage',
-        corejs: 3, // 配置使用core-js使用的版本,版本号看package.json中查看
-      },
+        corejs: 3 // 配置使用core-js使用的版本,版本号看package.json中查看
+      }
     ],
     '@babel/preset-react',
-    '@babel/preset-typescript',
+    '@babel/preset-typescript'
   ],
   // 支持装饰器语法
-  plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
+  plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]]
 };

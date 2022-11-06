@@ -2,8 +2,8 @@ import React, { useState, lazy, Suspense } from 'react';
 // import './App.css';
 import './index.less';
 // import TestClass from '@/components/Class';
-import { TestClass, Demo1, Demo2 } from '@/components';
-const LazyDemo = lazy(() => import('@/components/LazyDemo'));
+import { TestClass, Demo1 } from '@/components';
+// const LazyDemo = lazy(() => import('@/components/LazyDemo'));
 // console.log('NODE_ENV', process.env.NODE_ENV);
 // console.log('BASE_ENV', process.env.BASE_ENV);
 
@@ -26,9 +26,11 @@ const PreloadDemo = lazy(
     )
 );
 
+// const a =
+//   'dssdddd12njfsdnfjnadsglasbdhgbahbsdhgf   bdshbghbadsbgasbdhgbhdasbhgbabghbhdsabdghbhbasbghdshb 散发i了你的老板娘说对方嘎嘎不回复都不会尬';
 function App() {
   const [count, setCounts] = useState('');
-  const onChange = (e: any) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCounts(e.target.value);
   };
 
@@ -61,12 +63,13 @@ function App() {
       <h1>webpack5-react-ts h1</h1>
       {/* <h2>webpack5-react-ts h2</h2> */}
       <p>受控组件dd</p>
-      <input type="text" value={count} onChange={onChange} />
+      <input type='text' value={count} onChange={onChange} />
       <br />
       <p>非受控组件</p>
-      <input type="text" />
+      <input type='text' />
       <TestClass />
-      <div className="smallImage"></div> {/* 小图片背景容器 */}
+      <div className='smallImage'> 色发夹三大纪律给你阿斯顿那首歌被老爸说过话</div>{' '}
+      {/* 小图片背景容器 */}
     </div>
   );
 }
