@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/wangliang101/react_spa_tpl/compare/v1.0.0...v1.1.0) (2022-11-26)
+
+
+### Features
+
+* 自动更新依赖 ([def0c5d](https://github.com/wangliang101/react_spa_tpl/commit/def0c5dd736ca83fd1e45f2c089a49c0c2991cab))
+
 # 1.0.0 (2022-11-26)
 
 
