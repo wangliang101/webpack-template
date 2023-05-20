@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/wangliang101/react_spa_tpl/compare/v1.1.0...v1.2.0) (2023-05-20)
+
+
+### Features
+
+* 增加@soda/friendly-errors-webpack-plugin来控制 webpack 日志输出 ([5f821b6](https://github.com/wangliang101/react_spa_tpl/commit/5f821b63260bd16a864b857e303941432a31447a))
+
 # [1.1.0](https://github.com/wangliang101/react_spa_tpl/compare/v1.0.0...v1.1.0) (2022-11-26)
 
 
