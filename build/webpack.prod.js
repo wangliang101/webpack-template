@@ -26,10 +26,10 @@ module.exports = merge(baseConfig, {
         parallel: true, // 开启多线程压缩
         terserOptions: {
           compress: {
-            pure_funcs: ['console.log'], // 删除console.log
-          },
-        },
-      }),
+            pure_funcs: ['console.log'] // 删除console.log
+          }
+        }
+      })
     ],
     splitChunks: {
       cacheGroups: {
@@ -40,17 +40,17 @@ module.exports = merge(baseConfig, {
           minChunks: 1, // 只要使用一次就提取出来
           chunks: 'initial', // 只提取初始化就能获取到的模块,不管异步的
           minSize: 0, // 提取代码体积大于0就提取出来
-          priority: 1, // 提取优先级为1
+          priority: 1 // 提取优先级为1
         },
         // 提取页面公共代码
         commons: {
           name: 'commons', // 提取文件命名为commons
           minChunks: 2, // 只要使用两次就提取出来
           chunks: 'initial', // 只提取初始化就能获取到的模块,不管异步的
-          minSize: 0, // 提取代码体积大于0就提取出来
-        },
-      },
-    },
+          minSize: 0 // 提取代码体积大于0就提取出来
+        }
+      }
+    }
   },
   plugins: [
     new CopyPlugin({
@@ -58,16 +58,16 @@ module.exports = merge(baseConfig, {
         {
           from: path.join(__dirname, '../public'),
           to: path.join(__dirname, '../dist'),
-          filter: (source) => {
+          filter: source => {
             console.log('source', source);
             return !source.includes('index.html');
-          },
-        },
-      ],
+          }
+        }
+      ]
     }),
     // 抽离css插件, 需要和webpack.base.js中MiniCssExtractPlugin.loader配合
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].[contenthash:8].css', // 抽离css的输出目录和名称
+      filename: 'static/css/[name].[contenthash:8].css' // 抽离css的输出目录和名称
     }),
     // 清理无用css,不过这个组件也有些沙雕，只要文件内包含和样式文件内相同的classname即不会去删除
     new PurgeCSSPlugin({
@@ -75,18 +75,18 @@ module.exports = merge(baseConfig, {
       // 只打包这些文件中用到的样式
       paths: globAll.sync([
         `${path.join(__dirname, '../src')}/**/*.tsx`,
-        `${path.join(__dirname, '../public')}/index.html`,
+        `${path.join(__dirname, '../public')}/index.html`
       ]),
       safelist: {
-        standard: [/^ant-/], // 过滤以ant-开头的类名，哪怕没用到也不删除
-      },
+        standard: [/^ant-/] // 过滤以ant-开头的类名，哪怕没用到也不删除
+      }
     }),
     new CompressionPlugin({
       test: /.(js|css)$/, // 只生成css,js压缩文件
       filename: '[path][base].gz', // 文件命名
       algorithm: 'gzip', // 压缩格式,默认是gzip
       threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k
-      minRatio: 0.8, // 压缩率,默认值是 0.8
-    }),
-  ],
+      minRatio: 0.8 // 压缩率,默认值是 0.8
+    })
+  ]
 });

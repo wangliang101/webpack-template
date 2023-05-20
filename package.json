@@ -31,6 +31,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
+    "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "@types/jest": "^29.2.3",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
