@@ -1,6 +1,6 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+// const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 const baseConfig = require('./webpack.base.js');
 
@@ -13,17 +13,17 @@ module.exports = merge(baseConfig, {
   devServer: {
     port: devServerPort, // 服务端口号
     compress: false, // 开发环境不开启压缩
-    client: {
-      progress: true
-    },
-    hot: true,
+    // client: {
+    //   progress: true
+    // },
+    // hot: true,
     historyApiFallback: true, // When using the HTML5 History API, the index.html page will likely have to be served in place of any 404 responses
     static: {
       directory: path.join(__dirname, '../public') //托管静态资源public文件夹
     }
   },
   plugins: [
-    new ReactRefreshWebpackPlugin(), // 添加热更新插件
+    // new ReactRefreshWebpackPlugin(), // 添加热更新插件
     // 整理terminal输出内容
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {

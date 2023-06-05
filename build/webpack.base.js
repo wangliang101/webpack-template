@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const { ModuleFederationPlugin } = require('webpack').container;
 const isDev = process.env.NODE_ENV === 'development'; // 是否是开发模式
-
+console.log('ModuleFederationPlugin', ModuleFederationPlugin);
 module.exports = {
   // 单入口
   entry: path.join(__dirname, '../src/index.tsx'), // 入口文件配置
@@ -17,7 +17,7 @@ module.exports = {
   output: {
     filename: 'static/js/[name].[chunkhash:8].js', //定义输出文件名字
     path: path.join(__dirname, '../dist'),
-    clean: true, // 相当于webpack4中 clean-webpack-plugin,
+    // clean: true, // 相当于webpack4中 clean-webpack-plugin,
     publicPath: '/'
   },
   cache: {
@@ -108,6 +108,14 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.BASE_ENV': JSON.stringify(process.env.BASE_ENV)
+    }),
+    new ModuleFederationPlugin({
+      name: 'CTA',
+      filename: 'CTA.js',
+      remotes: {
+        SDK: `SDK@http://172.16.6.40:8000/viewer_c_sdk/sdkEntry.js`
+      },
+      exposes: {}
     })
   ]
 };
