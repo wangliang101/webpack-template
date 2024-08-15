@@ -27,16 +27,7 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
 
   const node = createMeasureNode(textStyle);
   document.body.appendChild(node);
-  const textList = text.split('\n');
-  // {w, h}
   const { h: firstLineHeight } = measureFontTextWH(node, text[0]);
-  // console.log(firstWH);
-  // let
-  // textList.reduce((item, i) => {
-  //   item
-
-  // }, []);
-  //
   /**
    * lineWidthLeft 本行剩余宽度
    * lineNum 行数
