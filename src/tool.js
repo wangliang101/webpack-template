@@ -1,23 +1,22 @@
 const measureFontTextWH = (node, word) => {
   node.textContent = word;
-  const w = node.offsetWidth;
-  const h = node.offsetHeight;
-
+  const { width: w, height: h } = node.getBoundingClientRect()
+  // const w = node.offsetWidth;
+  // const h = node.offsetHeight;
   return { w, h };
 };
 
 const createMeasureNode = (textStyle) => {
-  const fontFamily = textStyle.fontFamily ? textStyle.fontFamily : '';
-  const fontSize = textStyle.fontSize ? textStyle.fontSize + 'px' : '';
-  const fontWeight = textStyle.fontWeight ? textStyle.fontWeight : '';
+  const { fontFamily = '', fontSize = '', fontWeight = '' } = textStyle;
 
   const tmpDiv = document.createElement('div');
   tmpDiv.style.fontFamily = fontFamily;
-  tmpDiv.style.fontSize = fontSize;
+  tmpDiv.style.fontSize = fontSize ? fontSize + 'px' : '';
   tmpDiv.style.fontWeight = fontWeight;
-  tmpDiv.style.visibility = 'hidden';
+  tmpDiv.style.visibility = 'visible';
   tmpDiv.style.display = 'inline-block';
   tmpDiv.style.whiteSpace = 'nowrap';
+  tmpDiv.style.position = 'fixed';
 
   return tmpDiv;
 };
@@ -26,6 +25,7 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
   if (text.length === 0) return [];
 
   const node = createMeasureNode(textStyle);
+  console.log('node', node)
   document.body.appendChild(node);
   const { h: firstLineHeight } = measureFontTextWH(node, text[0]);
   /**
@@ -35,51 +35,54 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
    */
   let lineWidthLeft = containerWidth;
   let lineNum = 1;
-  let lineHeight = firstLineHeight;
+  let lineHeight = 20;
   const result = [];
   let comHeight = intlHeight;
   let splitPoint = 0;
-  text.split('').forEach((v, i) => {
-    const { w, h } = measureFontTextWH(node, v);
-    console.log('文本', v, w, h);
+  const textArray = text.split('');
+  // console.log('textArray', textArray)
+  textArray.forEach((v, i) => {
+    let { w, h } = measureFontTextWH(node, v);
+    // if (w === 8) {
+    //   w = 8.44
+    // }
+    // lineHeight = Math.max(lineHeight, h);
+    // console.log('文本', v, w, h);
+
     if (v === '\n') {
-      console.log('换行', lineHeight * lineNum, comHeight);
-      if (lineHeight * (lineNum + 1) < comHeight) {
+      if (lineHeight * (lineNum + 1) <= comHeight) {
         lineNum += 1;
       } else {
-        result.push({ content: text.substr(splitPoint, i + 1), height: lineHeight * lineNum });
+        console.log('3333', v, lineHeight, lineNum, comHeight)
+        result.push({ content: text.substr(splitPoint, i + 1), height: comHeight });
         comHeight = maxHeight;
         lineNum = 1;
         splitPoint = i + 1;
       }
       lineWidthLeft = containerWidth;
-    }
+    } else if (lineWidthLeft - w < 0) {
+      console.log('2222', v,)
 
-    if (lineWidthLeft - w <= 0) {
       lineNum += 1;
       lineWidthLeft = containerWidth - w;
     } else {
+      // console.log('1111', v,)
       lineWidthLeft -= w;
     }
 
-    if (i + 1 === text.split('').length) {
-      console.log('结束了');
-      result.push({ content: text.substr(splitPoint, i), height: lineHeight * lineNum });
-    }
-
-    // 超过容器高度，新增容器
-    if (lineHeight * lineNum >= comHeight) {
-      console.log('默认组件装不下了', lineHeight, lineNum);
+    if (lineHeight * lineNum >= comHeight || i + 1 === textArray.length) {
+      console.log('1111', i, textArray.length, v)
       result.push({ content: text.substr(splitPoint, i + 1), height: lineHeight * lineNum });
       comHeight = maxHeight;
       lineNum = 1;
       splitPoint = i + 1;
+      lineWidthLeft = containerWidth;
     }
   });
-  console.log('result', result);
 
-  document.body.removeChild(node);
+  // document.body.removeChild(node);
   return result;
 };
 
 export { partSplit };
+
