@@ -35,14 +35,69 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
    */
   let lineWidthLeft = containerWidth;
   let lineNum = 1;
-  let lineHeight = 20;
   const result = [];
   let comHeight = intlHeight;
   let splitPoint = 0;
   const textArray = text.split('');
   // console.log('textArray', textArray)
+  let curCom = {
+    content: [],
+    height: 0
+  }
+  let curLine = {
+    widthRemaining: containerWidth,
+    height: 0,
+    content: ''
+  }
+  let heightRemaining = intlHeight
   textArray.forEach((v, i) => {
     let { w, h } = measureFontTextWH(node, v);
+
+    if(curLine.widthRemaining - w <= 0 || (v === '\n' && curLine.widthRemaining !== 0)){
+      curLine.content += v;
+      if(v === '\n'){
+        curLine.widthRemaining = 0
+      }
+      curLine.height = Math.max(curLine.height, h)
+    }else{
+      curCom.content.push(curLine);
+      curCom.height -= curLine.height;
+
+      if(v === '\n'){
+        curLine = {
+          widthRemaining: 0,
+          height: h,
+          content: v
+        }
+      }else{
+        curLine = {
+          widthRemaining:containerWidth - w,
+          height: h,
+          content: v
+        }
+      }
+      if(curCom.height + curLine.height <= heightRemaining){
+        curCom.content.push(curLine);
+      }else{
+        result.push(curCom);
+        curCom = {
+          content: [],
+          height: 0
+        }
+      }
+
+
+      
+      // https://chatgpt.com/share/e632537c-e9af-4894-8a36-674f6aca9c34
+
+    }
+
+    lineHeight = Math.max(lineHeight, h);
+
+    if(v === '\n' || lineWidthLeft - w < 0){
+      lineNum += 1
+    }
+
     // if (w === 8) {
     //   w = 8.44
     // }
