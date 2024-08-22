@@ -22,9 +22,20 @@ const createMeasureNode = (textStyle) => {
   return tmpDiv;
 };
 
+const calcEmptyWidth = (style) => {
+  const empty = createMeasureNode(style)
+  document.body.appendChild(empty);
+  const { w } = measureFontTextWH(empty, '1 2');
+  const { w: w1 } = measureFontTextWH(empty, '1');
+  const { w: w2 } = measureFontTextWH(empty, '2');
+  document.body.removeChild(empty);
+  return w - w1 - w2
+}
+
 const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
   if (text.length === 0) return [];
-
+  const emptyW = calcEmptyWidth(textStyle)
+  console.log('emptyW', emptyW)
   const node = createMeasureNode(textStyle);
   document.body.appendChild(node);
   /**
@@ -43,11 +54,16 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
   }
   let height = intlHeight
   textArray.forEach((v, i) => {
-    let { w, h } = measureFontTextWH(node, v);
-    if(w===0) w=8.4296875;
-    if(v === '\n'){
-      console.log('1111',curLine.widthRemaining ,w)
 
+    let { w, h } = measureFontTextWH(node, v);
+    if (v === ' ') {
+      w = emptyW
+    }
+    // if (w === 0) {
+    //   let { w, h } = measureFontTextWH(node, '1 2');
+    // };
+    if (v === '\n') {
+      console.log('1111', curLine.widthRemaining, w)
       curLine.content += v;
       curLine.height = Math.max(curLine.height, h)
       result.push(curLine)
@@ -57,13 +73,13 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
         content: ''
       }
       return
-    }else if(curLine.widthRemaining - w >= 0){
-      console.log('222',curLine.widthRemaining ,v,typeof v,h,w)
+    } else if (curLine.widthRemaining - w >= 0) {
+      console.log('222', curLine.widthRemaining, v, typeof v, h, w)
       curLine.widthRemaining -= w;
       curLine.content += v;
       curLine.height = Math.max(curLine.height, h)
-    }else{
-      console.log('33333',curLine.widthRemaining ,v,h,w)
+    } else {
+      console.log('33333', curLine.widthRemaining, v, h, w)
       result.push(curLine)
       curLine = {
         widthRemaining: containerWidth - w,
@@ -72,23 +88,26 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
       }
       // https://chatgpt.com/share/e632537c-e9af-4894-8a36-674f6aca9c34
     }
+    if (i === textArray.length - 1) {
+      result.push(curLine)
+    }
   });
   let comIndex = 0
   result.forEach(line => {
-    if(height - line.height < 0){
+    if (height - line.height < 0) {
       comIndex++;
       height = maxHeight - line.height;
       com[comIndex] = [line]
-    }else{
+    } else {
       height -= line.height
-      if(com[comIndex] === undefined){
+      if (com[comIndex] === undefined) {
         com[comIndex] = [line]
-      }else{
+      } else {
         com[comIndex].push(line)
       }
     }
   })
-  console.log('result', result,com)
+  console.log('result', result, com)
   // document.body.removeChild(node);
   return result;
 };
