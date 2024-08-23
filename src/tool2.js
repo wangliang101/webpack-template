@@ -15,15 +15,14 @@ const createMeasureNode = (textStyle) => {
   tmpDiv.style.fontWeight = fontWeight;
   tmpDiv.style.visibility = 'visible';
   tmpDiv.style.display = 'inline-block';
-  // tmpDiv.style.whiteSpace = 'nowrap';
-  tmpDiv.style.position = 'fixed';
-  tmpDiv.style.top = '200px'
   tmpDiv.style.width = containerWidth;
-  tmpDiv.style.background = 'orange'
   tmpDiv.style.wordBreak = 'break-all'
   tmpDiv.style.whiteSpace = 'pre-line'
   tmpDiv.contentEditable = true
-  tmpDiv.id = 'text-div';
+  // tmpDiv.id = 'text-div';
+  // tmpDiv.style.background = 'orange'
+  // tmpDiv.style.position = 'fixed';
+  // tmpDiv.style.top = '200px'
   return tmpDiv;
 };
 
@@ -95,13 +94,12 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
   const textAdapt = text.replaceAll(" ", "&nbsp")
   node.innerHTML = textAdapt;
   document.body.appendChild(node);
-
+  // 分行
   let lineTextList = []
   node.focus()
   setCursorPosition(node, 0)
   let { top: preTop } = getSelectionTopPosition();
   let preIndex = 0
-  console.log('text.length', text.length)
   for (let i = 1; i < text.length; i++) {
     setCursorPosition(node, i)
     const { top } = getSelectionTopPosition();
@@ -116,32 +114,31 @@ const partSplit = (text, intlHeight, maxHeight, containerWidth, textStyle) => {
     }
   }
   node.blur()
+  // 测量每行高度
   const lineList = lineTextList.reduce((acc, cur) => {
     const { h } = measurNodeWH(node, cur)
     acc.push({ content: cur, height: h })
     return acc
   }, [])
-  console.log('lineList', lineList)
+  // 分组件
   const result = [];
-  let com = []
+  let com = { content: '', height: 0 };
   let height = intlHeight;
   for (let i = 0; i < lineList.length; i++) {
     if (height - lineList[i].height >= 0) {
       height -= lineList[i].height;
-      com.push(lineList[i])
+      com.content += lineList[i].content
+      com.height += lineList[i].height
     } else {
       result.push(com)
-      com = []
-      com.push(lineList[i])
+      com = { content: lineList[i].content, height: lineList[i].height };
       height = maxHeight - lineList[i].height
     }
     if (i === lineList.length - 1) {
       result.push(com)
     }
   }
-  const textArray = text.split('');
-  window.textArray = textArray
-
+  document.body.removeChild(node);
   return result;
 };
 
